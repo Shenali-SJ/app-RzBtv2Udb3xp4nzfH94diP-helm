@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: '{{.Values.microservices.roadService.serviceName}}'
+spec:
+  selector:
+    app: '{{.Values.microservices.roadService.serviceName}}'
+  ports:
+  - name: http
+    port: 80
+    targetPort: '{{.Values.microservices.roadService.containerPort}}'
+  type: ClusterIP

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: '{{.Values.microservices.roadService.serviceName}}'
+  labels:
+    app: '{{.Values.microservices.roadService.serviceName}}'
+spec:
+  replicas: '{{.Values.microservices.roadService.avgReplicas}}'
+  selector:
+    matchLabels:
+      app: '{{.Values.microservices.roadService.serviceName}}'
+  template:
+    metadata:
+      labels:
+        app: '{{.Values.microservices.roadService.serviceName}}'
+    spec:
+      containers:
+      - name: '{{.Values.microservices.roadService.serviceName}}'
+        image: '{{.Values.microservices.roadService.dockerImage}}'
+        ports:
+        - containerPort: '{{.Values.microservices.roadService.containerPort}}'
+        env:
+        - name: '{{.Values.microservices.roadService.envs.DB_USERNAME.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.roadService.serviceName}}'
+              key: '{{.Values.microservices.roadService.envs.DB_USERNAME.name}}'
+        - name: '{{.Values.microservices.roadService.envs.DB_PASSWORD.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.roadService.serviceName}}'
+              key: '{{.Values.microservices.roadService.envs.DB_PASSWORD.name}}'
+        - name: '{{.Values.microservices.roadService.envs.MYSQL_ROOT_PASSWORD.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.roadService.serviceName}}'
+              key: '{{.Values.microservices.roadService.envs.MYSQL_ROOT_PASSWORD.name}}'
+        - name: '{{.Values.microservices.roadService.envs.MYSQL_DATABASE.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.roadService.serviceName}}'
+              key: '{{.Values.microservices.roadService.envs.MYSQL_DATABASE.name}}'
+        - name: '{{.Values.microservices.roadService.envs.DB_HOST.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.roadService.serviceName}}'
+              key: '{{.Values.microservices.roadService.envs.DB_HOST.name}}'
